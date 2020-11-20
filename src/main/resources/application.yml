@@ -1,0 +1,30 @@
+server:
+  port: 8081
+
+# mysql
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1:3306/code06?serverTimezone=GMT&characterEncoding=utf8
+    username: root
+    password: 123456
+    initial-size: 1
+    min-idle: 1
+    max-active: 20
+
+# Mybatis
+mybatis:
+  mapperLocations: classpath:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+#mysql
+pagehelper:
+  helper-dialect: mysql
+  offset-as-page-num: true
+  params: count=countSql
+  reasonable: true
+  row-bounds-with-count: true
+  support-methods-arguments: true

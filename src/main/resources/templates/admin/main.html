@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title th:text="百度云搜索引擎后台管理"></title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css"></link>
+    <link rel="stylesheet" href="/static/css/css.css"></link>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo"><a href="/admin" style="color: gray">百度云搜索引擎-后台管理</a></div>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item"><a href="javascript:history.back(-1)"><i class="layui-icon layui-icon-return">&nbsp;&nbsp;返回上一页</i></a></li>
+            <li class="layui-nav-item"><a href="javascript:;">
+                <b id="time"></b></a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:">
+                    <img src="/static/images/manager.jpg" class="layui-nav-img" th:text="linka39"></img>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/">安全退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">资源管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:openPage('articleManage.html')">资源管理</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">标签管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:openPage('hotSearchManage.html')">标签管理</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <iframe id="pageFrame" frameborder='0' scrolling='auto' style='width:100%;height:98%' src="/admin/towelcom"></iframe>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        Copyright © 2012-2020 Lika39 版权所有
+    </div>
+</div>
+<script src="/static/layui/layui.js"></script>
+<script src="/static/bootstrap3/js/jquery-1.11.2.min.js"></script>
+<script src="/static/js/common.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+        layui.use(['element','laypage','form'], function(){
+            var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        var $ = layui.jquery; // 使用jquery
+        var laypage = layui.laypage;
+    });
+
+    var t = setInterval(printTime,1000);
+
+    function printTime(){
+        //clearTimeout(t);//清除定时器
+        var dt = new Date();
+        var y=dt.getYear()+1900;
+        var mm=dt.getMonth()+1;
+        var d=dt.getDate();
+        var weekday=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
+        var day=dt.getDay();
+        var h=dt.getHours();
+        var m=dt.getMinutes();
+        var s=dt.getSeconds();
+        if(h<10){h="0"+h;}
+        if(m<10){m="0"+m;}
+        if(s<10){s="0"+s;}
+        document.getElementById("time").innerHTML =  "日期："+y+"年"+mm+"月"+d+"日"+" "+weekday[day]+" "+h+":"+m+":"+s+"";
+    }
+
+    function openPage(page){
+        $("#pageFrame").attr("src","/admin/"+page);
+    }
+
+    /*]]>*/
+</script>
+</body>
+</html>

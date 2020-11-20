@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>更新资源</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css"></link>
+    <style type="text/css">
+        table tr td{
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div style="padding: 20px">
+    <form method="post">
+        <table>
+            <tr>
+                <td>百度云分享地址：</td>
+                <td><input type="text" autocomplete="off" id="shareUrl" name="shareUrl" class="layui-input" style="width: 400px"/></td>
+            </tr>
+            <tr>
+                <td>百度云分享密码：</td>
+                <td><input type="text" autocomplete="off" id="password" name="password" class="layui-input" style="width: 100px;display: inline;"/>&nbsp;&nbsp;<span>(无密码无需输入)</span></td>
+            </tr>
+            <tr>
+                <td><button class="layui-btn" onclick="submitData();return false;">提交</button></td>
+                <td><font id="errorInfo" color="red"></font></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script src="/static/bootstrap3/js/jquery-1.11.2.min.js"></script>
+<script src="/static/js/common.js"></script>
+<script type="text/javascript">
+var id = "";
+    function submitData(){
+        var successText = id==""?"添加成功！":"修改成功！";
+        var shareUrl=$("#shareUrl").val().trim();
+        var password=$("#password").val().trim();
+        if(shareUrl=="") {
+            $("#errorInfo").text("请输入百度云分享地址！");
+            $("#shareUrl").focus();
+            return false;
+        }
+
+        $.post("/admin/article/add",
+            {id:id
+                ,shareUrl:shareUrl
+                , password:password}
+        ,function(result){
+            if(result.success){
+                alert(successText);
+                parent.reloadPage();
+            }else{
+                $("#errorInfo").text(result.errorInfo);
+            }
+        },"json");
+
+    }
+
+    $(function(){
+
+        id=getQueryVariable("id");
+
+        if(id){
+            $.post("/admin/article/findById",
+                {id:id},
+                function(result){
+                    if(result.success){
+                        var article=result.article;
+                        $("#shareUrl").val(article.shareUrl);
+                        $("#password").val(article.password);
+                        $("#sort").val(article.sort);
+                    }else{
+                        alert("服务器加载有问题，请联系管理员！");
+                    }
+                },"json");
+        }
+    });
+    function getQueryVariable(variable){
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable)
+            {return pair[1];}
+        }
+        return(false);
+    }
+
+</script>
+
+</body>
+</html>
